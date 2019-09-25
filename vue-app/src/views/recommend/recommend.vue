@@ -19,7 +19,7 @@
 </template>
 <script>
 import Slider from 'base/slider/slider'
-import { getRecommend } from 'api/recommend'
+import { getRecommend, getDiscList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
 
 export default {
@@ -38,10 +38,14 @@ export default {
           this.recommends = res.data.slider
         }
       })
+    },
+    _getDiscList () {
+      console.log(getDiscList())
     }
   },
   created() {
-    this._getRecommend()
+    this._getRecommend(),
+    this._getDiscList()
   }
 }
 </script>
