@@ -12,7 +12,17 @@
       </div>
       <div class="recommend-list">
         <h1 class="list-title">热门歌单推荐</h1>
-        <ul></ul>
+        <ul>
+          <li class="item" v-for="(item,index) in discList" :key="index">
+            <div class="icon">
+              <img :src="item.imgurl" width="60" height="60">
+            </div>
+            <div class="text">
+              <h2 class="name" v-html="item.creator.name"></h2>
+              <p class="desc" v-html="item.dissname"></p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -28,7 +38,8 @@ export default {
   },
   data() {
     return {
-      recommends: []
+      recommends: [],
+      discList: []
     }
   },
   methods: {
@@ -40,7 +51,10 @@ export default {
       })
     },
     _getDiscList () {
-      console.log(getDiscList())
+      getDiscList().then(res => {
+        this.discList = res.data.list
+        console.log(this.discList)
+      })      
     }
   },
   created() {

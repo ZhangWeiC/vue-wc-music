@@ -15,7 +15,6 @@ module.exports = {
       .set('views', resolve('src/views'))
       .set('base', resolve('src/base'))
   },
-  baseUrl: '/',
   devServer: {
     before(app) {
       app.get('/api/getDiscList', function (req, res) {
@@ -36,4 +35,3 @@ module.exports = {
     }
   }
 }
-// VUE_APP_BASE_API = '/getDiscList'

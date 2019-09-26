@@ -27,10 +27,11 @@ export function getDiscList() {
     format: 'json'
   })
 
-  axios.get('/api/getDiscList', {
+  return axios.get('/api/getDiscList', {
     params: data
   }).then(res => {
-    console.log(res.data)
+    // console.log(res.data)
+    // return Promise.resolve(res.data)
     return res.data
   })
 }
