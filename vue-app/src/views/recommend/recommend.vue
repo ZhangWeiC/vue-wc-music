@@ -1,40 +1,44 @@
 <template>
   <div class="recommend">
-    <div class="recommend-content">
-      <div class="slider-wrapper" v-if="recommends.length">
-        <slider>
-          <div v-for="item in recommends" :key="item.index">
-            <a :href="item.linkUrl">
-              <img :src="item.picUrl">
-            </a>
-          </div>
-        </slider>
-      </div>
-      <div class="recommend-list">
-        <h1 class="list-title">热门歌单推荐</h1>
-        <ul>
-          <li class="item" v-for="(item,index) in discList" :key="index">
-            <div class="icon">
-              <img :src="item.imgurl" width="60" height="60">
+    <scroll class="recommend-content" :data="discList" ref="scroll">
+      <div>
+        <div class="slider-wrapper" v-if="recommends.length">
+          <slider>
+            <div v-for="item in recommends" :key="item.index">
+              <a :href="item.linkUrl">
+                <img @load="loadImage" :src="item.picUrl">
+              </a>
             </div>
-            <div class="text">
-              <h2 class="name" v-html="item.creator.name"></h2>
-              <p class="desc" v-html="item.dissname"></p>
-            </div>
-          </li>
-        </ul>
+          </slider>
+        </div>
+        <div class="recommend-list">
+          <h1 class="list-title">热门歌单推荐</h1>
+          <ul>
+            <li class="item" v-for="(item,index) in discList" :key="index">
+              <div class="icon">
+                <img :src="item.imgurl" width="60" height="60">
+              </div>
+              <div class="text">
+                <h2 class="name" v-html="item.creator.name"></h2>
+                <p class="desc" v-html="item.dissname"></p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 <script>
 import Slider from 'base/slider/slider'
+import Scroll from 'base/scroll/scroll'
 import { getRecommend, getDiscList } from 'api/recommend'
 import { ERR_OK } from 'api/config'
 
 export default {
   components: {
-    Slider
+    Slider,
+    Scroll
   },
   data() {
     return {
@@ -55,6 +59,12 @@ export default {
         this.discList = res.data.list
         console.log(this.discList)
       })      
+    },
+    loadImage () {
+      if(!this.isLoaded){
+        this.isLoaded = true
+        this.$refs.scroll.refresh()
+      }
     }
   },
   created() {

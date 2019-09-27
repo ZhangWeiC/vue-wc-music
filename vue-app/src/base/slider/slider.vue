@@ -44,9 +44,18 @@ export default {
         this._play()
       }
     }, 20);
+
+    window.addEventListener('resize', () => {
+      if (!this.slider) {
+        return 0
+      }
+
+      this._setSliderWidth(true)
+      this.slider.refresh()
+    })
   },
   methods: {
-    _setSliderWidth() {
+    _setSliderWidth(isResize) {
       this.children = this.$refs.sliderGroup.children
 
       let width = 0
@@ -59,7 +68,7 @@ export default {
         width += sliderWidth
       }
       
-      if(this.loop){
+      if (this.loop && !isResize) {
         width += 2*sliderWidth
       }
 
