@@ -1,15 +1,17 @@
 <template>
   <div class="singer" ref="singer">
+    <list-view :data="singers"></list-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import {getSingerList} from 'api/singer'
   import {ERR_OK} from 'api/config'
+  import ListView from 'base/listview/listview'
 
   import Singer from 'common/js/singer'
 
-  const HOT_TITLE = 'hot'
+  const HOT_TITLE = '热门'
   const HOT_LENGTH = 10  
   
   export default {
@@ -25,6 +27,7 @@
       _getSingerList() {
         getSingerList().then((res) => {
           if (res.code === ERR_OK) {
+            this.singers = this._normalizeSinger(res.data.list)
             console.log( this._normalizeSinger(res.data.list) )
           }
         }).catch(err => {
@@ -47,10 +50,10 @@
           if (!map[idx]) {
             map[idx] = {
               title: idx,
-              item: []
+              items: []
             }
           }
-          map[idx].item.push(new Singer(item.Fsinger_mid, item.Fsinger_name))  
+          map[idx].items.push(new Singer(item.Fsinger_mid, item.Fsinger_name))  
         })
 
         let hot = []
@@ -58,7 +61,7 @@
         for(var key in map){
           let val = map[key]
 
-          if (val.title === 'hot') {
+          if (val.title === '热门') {
             hot.push(val)
           }else if(val.title.match(/[a-zA-Z]/)){
             ret.push(val)
@@ -70,6 +73,9 @@
         })
         return hot.concat(ret)
       }
+    },
+    components: {
+      ListView
     }
   }
 </script>
