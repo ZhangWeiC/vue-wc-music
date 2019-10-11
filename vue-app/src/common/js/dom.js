@@ -12,3 +12,14 @@ export function addClass(el, className) {
   newClass.push(className)
   el.className = newClass.join(' ')
 }
+
+export function getData(el, name, val) {
+  let anchor = 'data-'
+  let prop = anchor + name
+
+  if (val) {
+    return el.setAttribute(prop, val)
+  } else {
+    return el.getAttribute(prop)
+  }
+}
